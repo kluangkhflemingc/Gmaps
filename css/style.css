@@ -6,9 +6,14 @@
     /* The width is the width of the web page */
   }
 
-  #title {
+#title {
       font-family: 'Verdana', Arial, sans-serif;
       font-size: 30px;
       text-align: center;
   }
+
+#parksMap {
+    height: 600px;
+    width: 100%
+}
   
