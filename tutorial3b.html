@@ -4,7 +4,7 @@
     <title>Earthquake Circles</title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5a1FoKmbmQ1djPh6pRx7oiknBf3ACNOE&callback=initMap&libraries=&v=weekly"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5a1FoKmbmQ1djPh6pRx7oiknBf3ACNOE&callback=circleMap&libraries=&v=weekly"
       defer
     ></script>
     <style type="text/css">
@@ -25,7 +25,7 @@
     <script>
       let map;
 
-      function initMap() {
+      function circleMap() {
         map = new google.maps.Map(document.getElementById("map"), {
           zoom: 2,
           center: { lat: -33.865427, lng: 151.196123 },
