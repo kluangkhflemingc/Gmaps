@@ -159,15 +159,15 @@ function degreeMap() {
 function heatMap() {
   newheatmap = new google.maps.Map(document.getElementById("map"), {
     zoom: 2,
-    center: { lat: -33.865427, lng: 151.196123 },
+    center: { lat: 2.8, lng: -187.3 },
     mapTypeId: "terrain",
   });
   // Create a <script> tag and set the USGS URL as the source.
   const script = document.createElement("script");
   // This example uses a local copy of the GeoJSON stored at
-  // http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp
+  // https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojsonp
   script.src =
-    "https://developers.google.com/maps/documentation/javascript/examples/json/earthquake_GeoJSONP.js";
+    "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.geojsonp";
   document.getElementsByTagName("head")[0].appendChild(script);
 }
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Earthquake Circles</title>
+    <title>Earthquake Circles January 2021</title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5a1FoKmbmQ1djPh6pRx7oiknBf3ACNOE&callback=circleMap&libraries=&v=weekly"
@@ -34,9 +34,9 @@
         // Create a <script> tag and set the USGS URL as the source.
         const script = document.createElement("script");
         // This example uses a local copy of the GeoJSON stored at
-        // http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp
+        // https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojsonp
         script.src =
-          "https://developers.google.com/maps/documentation/javascript/examples/json/earthquake_GeoJSONP.js";
+          "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.geojsonp";
         document.getElementsByTagName("head")[0].appendChild(script);
         map.data.setStyle((feature) => {
           const magnitude = feature.getProperty("mag");
