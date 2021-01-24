@@ -1,4 +1,4 @@
-let map;
+// let circlemap;
 
 function circlesMap() {
     circlemap = new google.maps.Map(document.getElementById("map"), {
@@ -27,8 +27,8 @@ function circlesMap() {
       fillColor: "red",
       fillOpacity: 0.2,
       scale: Math.pow(2, magnitude) / 2,
-      strokeColor: "white",
-      strokeWeight: 0.5,
+      strokeColor: "red",
+      strokeWeight: 0.3,
     };
   }  
 
