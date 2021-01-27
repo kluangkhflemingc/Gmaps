@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Iceland 2019</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5a1FoKmbmQ1djPh6pRx7oiknBf3ACNOE&callback=initMap&libraries=&v=weekly"
+      defer
+    ></script>
+    <style type="text/css">
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      .map {
+        display: block;
+        height: 80%;
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <script>
+        function clusterMap() {
+  const parkmap = new google.maps.Map(document.getElementById("parksMap"), {
+    zoom: 7,
+    center: { lat: 64.65, lng: -18.389878645448636 },
+    mapTypeId: "terrain"
+  });
+  // Add some markers to the map.
+  // Note: The code uses the JavaScript Array.prototype.map() method to
+  // create an array of markers based on a given "locations" array.
+  // The map() method here has nothing to do with the Google Maps API.
+  const markers = locations.map((location, i) => {
+    return new google.maps.Marker({
+      position: location,
+    });
+  });
+  // Add a marker clusterer to manage the markers.
+  new MarkerClusterer(parkmap, markers, {
+    imagePath:
+      "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
+  });
+}
+const locations = [
+  { lat: 64.25602210551021, lng: -21.129496057109773 },
+  { lat: 64.31281294526529, lng: -20.30072331477941 },
+  { lat: 64.32729798791719, lng: -20.119983951734493 },
+  { lat: 64.13519217589722, lng: -20.322561423252917 },
+  { lat: 64.00219355062262, lng: -21.18309981645192 },
+  { lat: 63.558925381051736, lng: -19.302572138498604 },
+  { lat: 63.40334735873135, lng: -19.042053875431304 },
+  { lat: 63.416284851101686, lng: -19.006615789656394 },
+  { lat: 63.532160569285764, lng: -19.51137635132471 },
+  { lat: 63.615712760362236, lng: -19.988566624337654 },
+  { lat: 64.14424522003347, lng: -21.939347472459655 },
+  { lat: 64.14222101042763, lng: -21.94799940129588 },
+  { lat: 64.11898631282767, lng: -21.816186943624736 },
+  { lat: 64.14946086652706, lng: -21.9414136436232787 },
+  { lat: 64.14740842990385, lng: -21.94272895711488 },
+  { lat: 64.15346592608839, lng: -21.948615610530034 },
+  { lat: 64.15013733127056, lng: -21.941376510981765 },
+  { lat: 64.14920468924797, lng: -21.940873243623297 },
+  { lat: 64.1383270099139, lng: -21.913475990225926 },
+];
+        function initMap() {
+        const map = new google.maps.Map(document.getElementById("flightmap"), {
+            zoom: 4,
+            center: { lat: 56.25337, lng: -57.35299 },
+            mapTypeId: "terrain",
+        });
+        const flightPlanCoordinates = [
+            { lat: 43.6777, lng: -79.6248 },
+            { lat: 63.9786, lng: -22.6350 },
+            // { lat: -18.142, lng: 178.431 },
+            // { lat: -27.467, lng: 153.027 },
+        ];
+        const lineSymbol = {
+            path: "M 0,-1 0,1",
+            strokeOpacity: 1,
+            scale: 4,
+        };
+        const flightPath = new google.maps.Polyline({
+            path: flightPlanCoordinates,
+            geodesic: true,
+            strokeColor: "#FF0000",
+            strokeOpacity: 0,
+            icons: [
+                {
+                    icon: lineSymbol,
+                    offset: "0",
+                    repeat: "20px",
+                },
+            ],
+        });
+        flightPath.setMap(map);
+        clusterMap();
+        }
+    </script>
+  </head>
+  <body>
+      <h1>Iceland Trip December 2019</h1>
+        <div class="map" id="flightmap"></div>
+        <p>Flight path from Toronto Pearson International Airport to Kelflavík International Airport in Iceland.</p>
+        <div class="map" id="parksMap"></div>
+        <p>Some tourist attractions and museums I visited in and around the Reykjavik area.</p>
+        <iframe class="map" src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyBmwxOyg1ApXQKH4GCF4GNbSQVtrti4G4Y&origin=place_id:ChIJc3O3OrV01kgRz8epHLF7TUU&destination=place_id:ChIJc3O3OrV01kgRz8epHLF7TUU&waypoints=place_id:ChIJe2kT-x-B1kgR8mKSB4tsdWs|place_id:ChIJKUjJPN2j1kgRTW1rruIPOPE|place_id:ChIJybZFr3Sl1kgRARZBC9tHYyw|place_id:ChIJvyZ0xe2V1kgRD3CcslPC8Ec|place_id:ChIJmwcg4rZm1kgRviuubzl-Fe4&mode=driving"></iframe>
+        <p>The route for a guided bus tour hosted by Reykjavik Sightseeing. We went to Þingvellir National Park, Strokkur (an erupting geyser), Gullfoss Waterfall and visited the towns of Flúðir and Hveragerði. At night, we saw the Northern Lights.</p>
+  </body>
+</html>
