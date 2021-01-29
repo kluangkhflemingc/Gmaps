@@ -5,7 +5,7 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script>
     <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5a1FoKmbmQ1djPh6pRx7oiknBf3ACNOE&callback=initMap&libraries=&v=weekly"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5a1FoKmbmQ1djPh6pRx7oiknBf3ACNOE&callback=initMap&libraries=places&v=weekly"
       defer
     ></script>
     <style type="text/css">
@@ -92,8 +92,6 @@ const locations = [
         const flightPlanCoordinates = [
             { lat: 43.6777, lng: -79.6248 },
             { lat: 63.9786, lng: -22.6350 },
-            // { lat: -18.142, lng: 178.431 },
-            // { lat: -27.467, lng: 153.027 },
         ];
         const lineSymbol = {
             path: "M 0,-1 0,1",
@@ -113,17 +111,81 @@ const locations = [
                 },
             ],
         });
+        const kelflavikRequest = {
+      placeId: "ChIJn3mr4vz9KUkRzSjDFQqN-Cc",
+      fields: ["name", "formatted_address", "international_phone_number", "website", "geometry"],
+      };
+      const infowindowKelflavik = new google.maps.InfoWindow();
+      const service = new google.maps.places.PlacesService(map);
+      const image = "images/airplane.png"
+      service.getDetails(kelflavikRequest, (kelflavik, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          const marker = new google.maps.Marker({
+            map: map,
+            position: kelflavik.geometry.location,
+            icon: image,
+          });
+          google.maps.event.addListener(marker, "click", function () {
+            infowindowKelflavik.setContent(
+              "<div><strong>" +
+                kelflavik.name +
+                "</strong><br>" +
+                "Address: " +
+                kelflavik.formatted_address +
+                "<br>" +
+                "Phone Number: " +
+                kelflavik.international_phone_number +
+                "<br>" +
+                "Website: " +
+                kelflavik.website +
+                "</div>"
+            );
+            infowindowKelflavik.open(map, this);
+          });
+        }
+      });
+      const pearsonRequest = {
+      placeId: "ChIJkdQtwEo5K4gRxQ4DxOldHbQ",
+      fields: ["name", "formatted_address", "international_phone_number", "website", "geometry"],
+      };
+      const infowindowPearson = new google.maps.InfoWindow();
+      service.getDetails(pearsonRequest, (pearson, pearsonStatus) => {
+        if (pearsonStatus === google.maps.places.PlacesServiceStatus.OK) {
+          const pearsonMarker = new google.maps.Marker({
+            map: map,
+            position: pearson.geometry.location,
+            icon: image,
+          });
+          google.maps.event.addListener(pearsonMarker, "click", function () {
+            infowindowPearson.setContent(
+              "<div><strong>" +
+                pearson.name +
+                "</strong><br>" +
+                "Address: " +
+                pearson.formatted_address +
+                "<br>" +
+                "Phone Number: " +
+                pearson.international_phone_number +
+                "<br>" +
+                "Website: " +
+                pearson.website +
+                "</div>"
+            );
+            infowindowPearson.open(map, this);
+          });
+        }
+      });
         flightPath.setMap(map);
         clusterMap();
         }
     </script>
   </head>
   <body>
-      <h1>One Trip, Three Persepctives</h1>
+      <h1>One Trip, Three Perspectives</h1>
       <p>In December of 2019 I spent a week in Iceland, staying in the capital city of Reykjavik. 
         Below are 3 Google Maps that outline my trip from the flight, to all the places I visited, to a specific one day tour.</p>
         <div class="map" id="flightmap"></div>
-        <p>Flight path from Toronto Pearson International Airport to Kelflavík International Airport in Iceland.</p>
+        <p>Flight path from Toronto Pearson International Airport to Kelflavík International Airport in Iceland. A direct flight took a little over 5 hours. Click on airplane icons for more details about each airport.</p>
         <div class="map" id="parksMap"></div>
         <p>Some tourist attractions and museums I visited in and around the Reykjavik area.</p>
         <iframe class="map" src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyA5a1FoKmbmQ1djPh6pRx7oiknBf3ACNOE&origin=place_id:ChIJc3O3OrV01kgRz8epHLF7TUU&destination=place_id:ChIJc3O3OrV01kgRz8epHLF7TUU&waypoints=place_id:ChIJe2kT-x-B1kgR8mKSB4tsdWs|place_id:ChIJKUjJPN2j1kgRTW1rruIPOPE|place_id:ChIJybZFr3Sl1kgRARZBC9tHYyw|place_id:ChIJvyZ0xe2V1kgRD3CcslPC8Ec|place_id:ChIJmwcg4rZm1kgRviuubzl-Fe4&mode=driving"></iframe>
