@@ -83,12 +83,55 @@ const locations = [
   { lat: 64.14920468924797, lng: -21.940873243623297 },
   { lat: 64.1383270099139, lng: -21.913475990225926 },
 ];
+function displayRoute(origin, destination, service, display) {
+    service.route(
+        {
+        origin: origin,
+        destination: destination,
+        waypoints: [
+            { location: "Thingvellir National Park, Thingvellir, 801 Selfoss, Iceland" },
+            { location: "Strokkur, Haukadalsvegur, Iceland" },
+            { location: "Gullfoss Falls, Iceland" },
+            { location: "Flúðir, Iceland" },
+            { location: "Hveragerði, Iceland" },
+        ],
+        travelMode: google.maps.TravelMode.DRIVING,
+        avoidTolls: true,
+        },
+        (result, status) => {
+        if (status === "OK") {
+            display.setDirections(result);
+        } else {
+            alert("Could not display directions due to: " + status);
+        }
+        }
+    );
+    }
         function initMap() {
-        const map = new google.maps.Map(document.getElementById("flightmap"), {
-            zoom: 4,
-            center: { lat: 56.25337, lng: -57.35299 },
-            mapTypeId: "terrain",
+            var flightOptions =
+            {
+                zoom: 4,
+                center: { lat: 56.25337, lng: -57.35299 },
+                mapTypeId: "terrain",
+            };
+            var tripOptions =
+            {
+                zoom: 11,
+                center: { lat: 64.097355, lng: -21.012060 },
+                mapTypeId: "terrain",
+            };
+            var flightMap = new google.maps.Map(document.getElementById("flightmap"), flightOptions);
+            var newmap = new google.maps.Map(document.getElementById("directionMap"), tripOptions);
+        const directionsService = new google.maps.DirectionsService(newmap);
+        const directionsRenderer = new google.maps.DirectionsRenderer({
+        map: newmap,
         });
+        displayRoute(
+        "Reykjavik Terminal, Skógarhlíð 10, Reykjavík, Iceland",
+        "Reykjavik Terminal, Skógarhlíð 10, Reykjavík, Iceland",
+        directionsService,
+        directionsRenderer
+        );
         const flightPlanCoordinates = [
             { lat: 43.6777, lng: -79.6248 },
             { lat: 63.9786, lng: -22.6350 },
@@ -116,12 +159,12 @@ const locations = [
       fields: ["name", "formatted_address", "international_phone_number", "website", "geometry"],
       };
       const infowindowKelflavik = new google.maps.InfoWindow();
-      const service = new google.maps.places.PlacesService(map);
+      const service = new google.maps.places.PlacesService(flightMap);
       const image = "images/airplane.png"
       service.getDetails(kelflavikRequest, (kelflavik, status) => {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           const marker = new google.maps.Marker({
-            map: map,
+            map: flightMap,
             position: kelflavik.geometry.location,
             icon: image,
           });
@@ -140,7 +183,7 @@ const locations = [
                 kelflavik.website +
                 "</div>"
             );
-            infowindowKelflavik.open(map, this);
+            infowindowKelflavik.open(flightMap, this);
           });
         }
       });
@@ -152,7 +195,7 @@ const locations = [
       service.getDetails(pearsonRequest, (pearson, pearsonStatus) => {
         if (pearsonStatus === google.maps.places.PlacesServiceStatus.OK) {
           const pearsonMarker = new google.maps.Marker({
-            map: map,
+            map: flightMap,
             position: pearson.geometry.location,
             icon: image,
           });
@@ -171,11 +214,11 @@ const locations = [
                 pearson.website +
                 "</div>"
             );
-            infowindowPearson.open(map, this);
+            infowindowPearson.open(flightMap, this);
           });
         }
       });
-        flightPath.setMap(map);
+        flightPath.setMap(flightMap);
         clusterMap();
         }
     </script>
@@ -188,7 +231,7 @@ const locations = [
         <p>Flight path from Toronto Pearson International Airport to Kelflavík International Airport in Iceland. A direct flight took a little over 5 hours. Click on airplane icons for more details about each airport.</p>
         <div class="map" id="parksMap"></div>
         <p>Some tourist attractions and museums I visited in and around the Reykjavik area.</p>
-        <iframe class="map" src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyA5a1FoKmbmQ1djPh6pRx7oiknBf3ACNOE&origin=place_id:ChIJc3O3OrV01kgRz8epHLF7TUU&destination=place_id:ChIJc3O3OrV01kgRz8epHLF7TUU&waypoints=place_id:ChIJe2kT-x-B1kgR8mKSB4tsdWs|place_id:ChIJKUjJPN2j1kgRTW1rruIPOPE|place_id:ChIJybZFr3Sl1kgRARZBC9tHYyw|place_id:ChIJvyZ0xe2V1kgRD3CcslPC8Ec|place_id:ChIJmwcg4rZm1kgRviuubzl-Fe4&mode=driving"></iframe>
-        <p>The route for a guided bus tour hosted by Reykjavik Sightseeing. We went to Þingvellir National Park, Strokkur (an erupting geyser), Gullfoss Waterfall and visited the towns of Flúðir and Hveragerði. At night, we saw the Northern Lights.</p>
+        <div class="map" id="directionMap"></div>
+        <p>The route for a guided bus tour hosted by Reykjavik Sightseeing. From the Reykjavik Terminal, we went to Þingvellir National Park, Strokkur (an erupting geyser), Gullfoss Waterfall and visited the towns of Flúðir and Hveragerði. At night, we saw the Northern Lights.</p>
   </body>
 </html>
