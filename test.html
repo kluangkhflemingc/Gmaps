@@ -114,6 +114,12 @@ function displayRoute(origin, destination, service, display) {
                 center: { lat: 56.25337, lng: -57.35299 },
                 mapTypeId: "terrain",
             };
+            var markerOptions =
+            {
+                zoom: 7,
+                center: { lat: 64.65, lng: -18.389878645448636 },
+                mapTypeId: "terrain",
+            };
             var tripOptions =
             {
                 zoom: 11,
@@ -121,10 +127,11 @@ function displayRoute(origin, destination, service, display) {
                 mapTypeId: "terrain",
             };
             var flightMap = new google.maps.Map(document.getElementById("flightmap"), flightOptions);
-            var newmap = new google.maps.Map(document.getElementById("directionMap"), tripOptions);
-        const directionsService = new google.maps.DirectionsService(newmap);
+            var parkmap = new google.maps.Map(document.getElementById("parksMap"), markerOptions);
+            var tripmap = new google.maps.Map(document.getElementById("directionMap"), tripOptions);
+        const directionsService = new google.maps.DirectionsService(tripmap);
         const directionsRenderer = new google.maps.DirectionsRenderer({
-        map: newmap,
+        map: tripmap,
         });
         displayRoute(
         "Reykjavik Terminal, Skógarhlíð 10, Reykjavík, Iceland",
@@ -132,6 +139,38 @@ function displayRoute(origin, destination, service, display) {
         directionsService,
         directionsRenderer
         );
+        const markers = locations.map((location, i) => {
+            return new google.maps.Marker({
+                map: parkmap,
+                position: location,
+            });
+        });
+        // Add a marker clusterer to manage the markers.
+        new MarkerClusterer(parkmap, markers, {
+        imagePath:
+        "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
+        });
+        const locations = [
+            { lat: 64.25602210551021, lng: -21.129496057109773 },
+            { lat: 64.31281294526529, lng: -20.30072331477941 },
+            { lat: 64.32729798791719, lng: -20.119983951734493 },
+            { lat: 64.13519217589722, lng: -20.322561423252917 },
+            { lat: 64.00219355062262, lng: -21.18309981645192 },
+            { lat: 63.558925381051736, lng: -19.302572138498604 },
+            { lat: 63.40334735873135, lng: -19.042053875431304 },
+            { lat: 63.416284851101686, lng: -19.006615789656394 },
+            { lat: 63.532160569285764, lng: -19.51137635132471 },
+            { lat: 63.615712760362236, lng: -19.988566624337654 },
+            { lat: 64.14424522003347, lng: -21.939347472459655 },
+            { lat: 64.14222101042763, lng: -21.94799940129588 },
+            { lat: 64.11898631282767, lng: -21.816186943624736 },
+            { lat: 64.14946086652706, lng: -21.9414136436232787 },
+            { lat: 64.14740842990385, lng: -21.94272895711488 },
+            { lat: 64.15346592608839, lng: -21.948615610530034 },
+            { lat: 64.15013733127056, lng: -21.941376510981765 },
+            { lat: 64.14920468924797, lng: -21.940873243623297 },
+            { lat: 64.1383270099139, lng: -21.913475990225926 },
+        ];
         const flightPlanCoordinates = [
             { lat: 43.6777, lng: -79.6248 },
             { lat: 63.9786, lng: -22.6350 },
@@ -163,11 +202,13 @@ function displayRoute(origin, destination, service, display) {
       const image = "images/airplane.png"
       service.getDetails(kelflavikRequest, (kelflavik, status) => {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
-          const marker = new google.maps.Marker({
-            map: flightMap,
-            position: kelflavik.geometry.location,
-            icon: image,
-          });
+            var kelflavikMarker =
+            {
+                map: flightMap,
+                position: kelflavik.geometry.location,
+                icon: image,
+            };
+          var marker = new google.maps.Marker(kelflavikMarker);
           google.maps.event.addListener(marker, "click", function () {
             infowindowKelflavik.setContent(
               "<div><strong>" +
@@ -194,11 +235,13 @@ function displayRoute(origin, destination, service, display) {
       const infowindowPearson = new google.maps.InfoWindow();
       service.getDetails(pearsonRequest, (pearson, pearsonStatus) => {
         if (pearsonStatus === google.maps.places.PlacesServiceStatus.OK) {
-          const pearsonMarker = new google.maps.Marker({
-            map: flightMap,
-            position: pearson.geometry.location,
-            icon: image,
-          });
+            var pearsonDetails =
+            {
+                map: flightMap,
+                position: kelflavik.geometry.location,
+                icon: image,
+            };
+          var pearsonMarker = new google.maps.Marker(pearsonDetails);
           google.maps.event.addListener(pearsonMarker, "click", function () {
             infowindowPearson.setContent(
               "<div><strong>" +
@@ -219,7 +262,6 @@ function displayRoute(origin, destination, service, display) {
         }
       });
         flightPath.setMap(flightMap);
-        clusterMap();
         }
     </script>
   </head>
