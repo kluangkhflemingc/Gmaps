@@ -66,10 +66,12 @@
         // Use the JavaScript Array.prototype.map() method to
         // create an array of markers based on a given "locations" array.
         // https://www.w3schools.com/jsref/jsref_map.asp
+        // Iceland flag icon image: https://pixabay.com/vectors/flag-flag-of-iceland-iceland-3026753/
         const markers = locations.map((location, i) => {
         return new google.maps.Marker({
             map: markerMap,
             position: location,
+            icon: "images/icelandflag.png"
         });
         });
         // Add a marker clusterer to manage the markers.
@@ -160,6 +162,7 @@
         };
         const infowindowKelflavik = new google.maps.InfoWindow();
         const service = new google.maps.places.PlacesService(flightMap);
+        // Airplace icon image: https://www.pngegg.com/en/png-ysvyl
         const image = "images/airplane.png"
         service.getDetails(kelflavikRequest, (kelflavik, status) => {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
