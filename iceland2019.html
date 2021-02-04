@@ -2,7 +2,6 @@
 <html>
   <head>
     <title>Iceland 2019</title>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script>
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5a1FoKmbmQ1djPh6pRx7oiknBf3ACNOE&callback=initMap&libraries=places&v=weekly"
@@ -41,102 +40,95 @@
       }
     </style>
     <script>
-      // Create a map that shows marker clustering for places I visited in Iceland
-    function clusterMap() {
-    const parkmap = new google.maps.Map(document.getElementById("parksMap"), {
-      zoom: 7,
-      center: { lat: 64.65, lng: -18.389878645448636 },
-      mapTypeId: "terrain"
-    });
-    // Add some markers to the map.
-    // Note: The code uses the JavaScript Array.prototype.map() method to
-    // create an array of markers based on a given "locations" array.
-    // The map() method here has nothing to do with the Google Maps API.
-    const markers = locations.map((location, i) => {
-      return new google.maps.Marker({
-        position: location,
-      });
-    });
-    // Add a marker clusterer to manage the markers.
-    new MarkerClusterer(parkmap, markers, {
-      imagePath:
-        "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
-    });
-  }
-  const locations = [
-    { lat: 64.25602210551021, lng: -21.129496057109773 },
-    { lat: 64.31281294526529, lng: -20.30072331477941 },
-    { lat: 64.32729798791719, lng: -20.119983951734493 },
-    { lat: 64.13519217589722, lng: -20.322561423252917 },
-    { lat: 64.00219355062262, lng: -21.18309981645192 },
-    { lat: 63.558925381051736, lng: -19.302572138498604 },
-    { lat: 63.40334735873135, lng: -19.042053875431304 },
-    { lat: 63.416284851101686, lng: -19.006615789656394 },
-    { lat: 63.532160569285764, lng: -19.51137635132471 },
-    { lat: 63.615712760362236, lng: -19.988566624337654 },
-    { lat: 64.14424522003347, lng: -21.939347472459655 },
-    { lat: 64.14222101042763, lng: -21.94799940129588 },
-    { lat: 64.11898631282767, lng: -21.816186943624736 },
-    { lat: 64.14946086652706, lng: -21.9414136436232787 },
-    { lat: 64.14740842990385, lng: -21.94272895711488 },
-    { lat: 64.15346592608839, lng: -21.948615610530034 },
-    { lat: 64.15013733127056, lng: -21.941376510981765 },
-    { lat: 64.14920468924797, lng: -21.940873243623297 },
-    { lat: 64.1383270099139, lng: -21.913475990225926 },
-  ];
-  // Creating a route with waypoints: https://developers.google.com/maps/documentation/javascript/directions#Waypoints
-  function displayRoute(origin, destination, service, display) {
-    service.route(
-        {
-        origin: origin,
-        destination: destination,
-        waypoints: [
-            { location: "Thingvellir National Park, Thingvellir, 801 Selfoss, Iceland" },
-            { location: "Strokkur, Haukadalsvegur, Iceland" },
-            { location: "Gullfoss Falls, Iceland" },
-            { location: "Flúðir, Iceland" },
-            { location: "Hveragerði, Iceland" },
-        ],
-        travelMode: google.maps.TravelMode.DRIVING,
-        avoidTolls: true,
-        },
-        (result, status) => {
-        if (status === "OK") {
-            display.setDirections(result);
-        } else {
-            alert("Could not display directions due to: " + status);
-        }
-        }
-    );
-    }
-        function initMap() {
-          // Embedding multiple maps with Maps JavaScript API: https://stackoverflow.com/questions/4074520/how-to-display-multiple-google-maps-per-page-with-api-v3
-            var flightOptions =
-            {
-                zoom: 4,
-                center: { lat: 56.25337, lng: -57.35299 },
-                mapTypeId: "terrain",
-            };
-            var tripOptions =
-            {
-                zoom: 11,
-                center: { lat: 64.097355, lng: -21.012060 },
-                mapTypeId: "terrain",
-            };
-            var flightMap = new google.maps.Map(document.getElementById("flightmap"), flightOptions);
-            var newmap = new google.maps.Map(document.getElementById("directionMap"), tripOptions);
-        // Use Directions Service (available with Maps JavaScript API and Directions API) to draw a route with waypoints
-        const directionsService = new google.maps.DirectionsService(newmap);
-        const directionsRenderer = new google.maps.DirectionsRenderer({
-        map: newmap,
+      // Create clusters of markers to represent places I visited in Iceland
+    function clusterMap(markerMap) {
+        const locations = [
+            { lat: 64.25602210551021, lng: -21.129496057109773 },
+            { lat: 64.31281294526529, lng: -20.30072331477941 },
+            { lat: 64.32729798791719, lng: -20.119983951734493 },
+            { lat: 64.13519217589722, lng: -20.322561423252917 },
+            { lat: 64.00219355062262, lng: -21.18309981645192 },
+            { lat: 63.558925381051736, lng: -19.302572138498604 },
+            { lat: 63.40334735873135, lng: -19.042053875431304 },
+            { lat: 63.416284851101686, lng: -19.006615789656394 },
+            { lat: 63.532160569285764, lng: -19.51137635132471 },
+            { lat: 63.615712760362236, lng: -19.988566624337654 },
+            { lat: 64.14424522003347, lng: -21.939347472459655 },
+            { lat: 64.14222101042763, lng: -21.94799940129588 },
+            { lat: 64.11898631282767, lng: -21.816186943624736 },
+            { lat: 64.14946086652706, lng: -21.9414136436232787 },
+            { lat: 64.14740842990385, lng: -21.94272895711488 },
+            { lat: 64.15346592608839, lng: -21.948615610530034 },
+            { lat: 64.15013733127056, lng: -21.941376510981765 },
+            { lat: 64.14920468924797, lng: -21.940873243623297 },
+            { lat: 64.1383270099139, lng: -21.913475990225926 },
+        ];
+        // Use the JavaScript Array.prototype.map() method to
+        // create an array of markers based on a given "locations" array.
+        // https://www.w3schools.com/jsref/jsref_map.asp
+        const markers = locations.map((location, i) => {
+        return new google.maps.Marker({
+            map: markerMap,
+            position: location,
         });
-        // displayRoute function called to draw a route between origin, destination and waypoints
-        displayRoute(
-        "Reykjavik Terminal, Skógarhlíð 10, Reykjavík, Iceland",
-        "Reykjavik Terminal, Skógarhlíð 10, Reykjavík, Iceland",
-        directionsService,
-        directionsRenderer
+        });
+        // Add a marker clusterer to manage the markers.
+        new MarkerClusterer(markerMap, markers, {
+        imagePath:
+            "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
+        });
+    }
+    // Creating a route with waypoints: https://developers.google.com/maps/documentation/javascript/directions#Waypoints
+    function displayRoute(origin, destination, service, display) {
+        service.route(
+            {
+            origin: origin,
+            destination: destination,
+            waypoints: [
+                { location: "Thingvellir National Park, Thingvellir, 801 Selfoss, Iceland" },
+                { location: "Strokkur, Haukadalsvegur, Iceland" },
+                { location: "Gullfoss Falls, Iceland" },
+                { location: "Flúðir, Iceland" },
+                { location: "Hveragerði, Iceland" },
+            ],
+            travelMode: google.maps.TravelMode.DRIVING,
+            avoidTolls: true,
+            },
+            (result, status) => {
+            if (status === "OK") {
+                display.setDirections(result);
+            } else {
+                alert("Could not display directions due to: " + status);
+            }
+            }
         );
+    }
+    function initMap() {
+        // Embedding multiple maps with Maps JavaScript API: https://stackoverflow.com/questions/4074520/how-to-display-multiple-google-maps-per-page-with-api-v3
+        var flightOptions =
+        {
+            zoom: 4,
+            center: { lat: 56.25337, lng: -57.35299 },
+            mapTypeId: "terrain",
+        };
+        var markerOptions =
+        {
+            zoom: 7,
+            center: { lat: 64.65, lng: -18.389878645448636 },
+            mapTypeId: "terrain",
+        };
+        var tripOptions =
+        {
+            zoom: 11,
+            center: { lat: 64.097355, lng: -21.012060 },
+            mapTypeId: "terrain",
+        };
+        var flightMap = new google.maps.Map(document.getElementById("flightmap"), flightOptions);
+        var markerMap = new google.maps.Map(document.getElementById("parksMap"), markerOptions);
+        var tripMap = new google.maps.Map(document.getElementById("directionMap"), tripOptions);
+
+        // Draw a polyline on flightMap to visualize the flight path
+        // https://developers.google.com/maps/documentation/javascript/shapes
         const flightPlanCoordinates = [
             { lat: 43.6777, lng: -79.6248 },
             { lat: 63.9786, lng: -22.6350 },
@@ -146,8 +138,6 @@
             strokeOpacity: 1,
             scale: 4,
         };
-        // Draw a polyline on flightMap to visualize the flight path
-        // https://developers.google.com/maps/documentation/javascript/shapes
         const flightPath = new google.maps.Polyline({
             path: flightPlanCoordinates,
             geodesic: true,
@@ -165,74 +155,85 @@
       // https://developers.google.com/maps/documentation/javascript/places#place_details
       // Each airport (place) will has its own info window
         const kelflavikRequest = {
-      placeId: "ChIJn3mr4vz9KUkRzSjDFQqN-Cc",
-      fields: ["name", "formatted_address", "international_phone_number", "website", "geometry"],
-      };
-      const infowindowKelflavik = new google.maps.InfoWindow();
-      const service = new google.maps.places.PlacesService(flightMap);
-      const image = "images/airplane.png"
-      service.getDetails(kelflavikRequest, (kelflavik, status) => {
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
-          const marker = new google.maps.Marker({
-            map: flightMap,
-            position: kelflavik.geometry.location,
-            icon: image,
-          });
-          google.maps.event.addListener(marker, "click", function () {
-            infowindowKelflavik.setContent(
-              "<div><strong>" +
-                kelflavik.name +
-                "</strong><br>" +
-                "Address: " +
-                kelflavik.formatted_address +
-                "<br>" +
-                "Phone Number: " +
-                kelflavik.international_phone_number +
-                "<br>" +
-                "Website: " +
-                kelflavik.website +
-                "</div>"
-            );
-            infowindowKelflavik.open(flightMap, this);
-          });
-        }
-      });
-      const pearsonRequest = {
-      placeId: "ChIJkdQtwEo5K4gRxQ4DxOldHbQ",
-      fields: ["name", "formatted_address", "international_phone_number", "website", "geometry"],
-      };
-      const infowindowPearson = new google.maps.InfoWindow();
-      service.getDetails(pearsonRequest, (pearson, pearsonStatus) => {
-        if (pearsonStatus === google.maps.places.PlacesServiceStatus.OK) {
-          const pearsonMarker = new google.maps.Marker({
-            map: flightMap,
-            position: pearson.geometry.location,
-            icon: image,
-          });
-          google.maps.event.addListener(pearsonMarker, "click", function () {
-            infowindowPearson.setContent(
-              "<div><strong>" +
-                pearson.name +
-                "</strong><br>" +
-                "Address: " +
-                pearson.formatted_address +
-                "<br>" +
-                "Phone Number: " +
-                pearson.international_phone_number +
-                "<br>" +
-                "Website: " +
-                pearson.website +
-                "</div>"
-            );
-            infowindowPearson.open(flightMap, this);
-          });
-        }
-      });
+            placeId: "ChIJn3mr4vz9KUkRzSjDFQqN-Cc",
+            fields: ["name", "formatted_address", "international_phone_number", "website", "geometry"],
+        };
+        const infowindowKelflavik = new google.maps.InfoWindow();
+        const service = new google.maps.places.PlacesService(flightMap);
+        const image = "images/airplane.png"
+        service.getDetails(kelflavikRequest, (kelflavik, status) => {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+            const marker = new google.maps.Marker({
+                map: flightMap,
+                position: kelflavik.geometry.location,
+                icon: image,
+            });
+            google.maps.event.addListener(marker, "click", function () {
+                infowindowKelflavik.setContent(
+                "<div><strong>" +
+                    kelflavik.name +
+                    "</strong><br>" +
+                    "Address: " +
+                    kelflavik.formatted_address +
+                    "<br>" +
+                    "Phone Number: " +
+                    kelflavik.international_phone_number +
+                    "<br>" +
+                    "Website: " +
+                    kelflavik.website +
+                    "</div>"
+                );
+                infowindowKelflavik.open(flightMap, this);
+            });
+            }
+        });
+        const pearsonRequest = {
+            placeId: "ChIJkdQtwEo5K4gRxQ4DxOldHbQ",
+            fields: ["name", "formatted_address", "international_phone_number", "website", "geometry"],
+        };
+        const infowindowPearson = new google.maps.InfoWindow();
+        service.getDetails(pearsonRequest, (pearson, pearsonStatus) => {
+            if (pearsonStatus === google.maps.places.PlacesServiceStatus.OK) {
+            const pearsonMarker = new google.maps.Marker({
+                map: flightMap,
+                position: pearson.geometry.location,
+                icon: image,
+            });
+            google.maps.event.addListener(pearsonMarker, "click", function () {
+                infowindowPearson.setContent(
+                "<div><strong>" +
+                    pearson.name +
+                    "</strong><br>" +
+                    "Address: " +
+                    pearson.formatted_address +
+                    "<br>" +
+                    "Phone Number: " +
+                    pearson.international_phone_number +
+                    "<br>" +
+                    "Website: " +
+                    pearson.website +
+                    "</div>"
+                );
+                infowindowPearson.open(flightMap, this);
+            });
+            }
+        });
         flightPath.setMap(flightMap);
-        // Invoke the clusterMap function inside the initMap function to display another map with a different callback
-        // https://stackoverflow.com/questions/41889362/add-two-google-maps-with-different-callbacks
-        clusterMap();
-        }
+        // markerMap variable passed into the clusterMap function to place markers and clusters on the map
+        clusterMap(markerMap);
+        // Use Directions Service (available with Maps JavaScript API and Directions API) to draw a route with waypoints
+        const directionsService = new google.maps.DirectionsService(tripMap);
+        const directionsRenderer = new google.maps.DirectionsRenderer({
+        map: tripMap,
+        });
+        // displayRoute function called to draw a route between origin, destination and waypoints
+        displayRoute(
+        "Reykjavik Terminal, Skógarhlíð 10, Reykjavík, Iceland",
+        "Reykjavik Terminal, Skógarhlíð 10, Reykjavík, Iceland",
+        directionsService,
+        directionsRenderer
+        );
+    }
     </script>
   </head>
   <body>
