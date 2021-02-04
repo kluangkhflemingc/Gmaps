@@ -1,20 +1,36 @@
 /* Set the size of the div element that contains the map */
 #degreeMap {
-    height: 500px;
+    height: 80%;
     /* The height is 500 pixels */
     width: 100%;
     /* The width is the width of the web page */
   }
 
-#title {
+h1 {
       font-family: 'Verdana', Arial, sans-serif;
       font-size: 30px;
       text-align: center;
   }
 
+p {
+    font-family: 'Verdana', Arial, sans-serif;
+    font-size: 15px;
+    text-align: center;
+}
+
 #parksMap {
     height: 600px;
     width: 100%
+}
+
+ul {
+  display: table;
+  margin: auto;
+}
+
+li {
+  font-family: 'Helvetica', Arial, sans-serif;
+  font-size: 20px;
 }
 
 /* Always set the map height explicitly to define the size of the div

@@ -17,7 +17,7 @@ function degreeMap() {
   function clusterMap() {
     const parkmap = new google.maps.Map(document.getElementById("parksMap"), {
       zoom: 5,
-      center: { lat: 50.558825, lng: -84.690299 },
+      center: { lat: 49.558825, lng: -84.690299 },
       mapTypeId: 'terrain',
     });
     // Create an array of alphabetical characters used to label the markers.
