@@ -41,49 +41,51 @@
       }
     </style>
     <script>
-        function clusterMap() {
-  const parkmap = new google.maps.Map(document.getElementById("parksMap"), {
-    zoom: 7,
-    center: { lat: 64.65, lng: -18.389878645448636 },
-    mapTypeId: "terrain"
-  });
-  // Add some markers to the map.
-  // Note: The code uses the JavaScript Array.prototype.map() method to
-  // create an array of markers based on a given "locations" array.
-  // The map() method here has nothing to do with the Google Maps API.
-  const markers = locations.map((location, i) => {
-    return new google.maps.Marker({
-      position: location,
+      // Create a map that shows marker clustering for places I visited in Iceland
+    function clusterMap() {
+    const parkmap = new google.maps.Map(document.getElementById("parksMap"), {
+      zoom: 7,
+      center: { lat: 64.65, lng: -18.389878645448636 },
+      mapTypeId: "terrain"
     });
-  });
-  // Add a marker clusterer to manage the markers.
-  new MarkerClusterer(parkmap, markers, {
-    imagePath:
-      "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
-  });
-}
-const locations = [
-  { lat: 64.25602210551021, lng: -21.129496057109773 },
-  { lat: 64.31281294526529, lng: -20.30072331477941 },
-  { lat: 64.32729798791719, lng: -20.119983951734493 },
-  { lat: 64.13519217589722, lng: -20.322561423252917 },
-  { lat: 64.00219355062262, lng: -21.18309981645192 },
-  { lat: 63.558925381051736, lng: -19.302572138498604 },
-  { lat: 63.40334735873135, lng: -19.042053875431304 },
-  { lat: 63.416284851101686, lng: -19.006615789656394 },
-  { lat: 63.532160569285764, lng: -19.51137635132471 },
-  { lat: 63.615712760362236, lng: -19.988566624337654 },
-  { lat: 64.14424522003347, lng: -21.939347472459655 },
-  { lat: 64.14222101042763, lng: -21.94799940129588 },
-  { lat: 64.11898631282767, lng: -21.816186943624736 },
-  { lat: 64.14946086652706, lng: -21.9414136436232787 },
-  { lat: 64.14740842990385, lng: -21.94272895711488 },
-  { lat: 64.15346592608839, lng: -21.948615610530034 },
-  { lat: 64.15013733127056, lng: -21.941376510981765 },
-  { lat: 64.14920468924797, lng: -21.940873243623297 },
-  { lat: 64.1383270099139, lng: -21.913475990225926 },
-];
-function displayRoute(origin, destination, service, display) {
+    // Add some markers to the map.
+    // Note: The code uses the JavaScript Array.prototype.map() method to
+    // create an array of markers based on a given "locations" array.
+    // The map() method here has nothing to do with the Google Maps API.
+    const markers = locations.map((location, i) => {
+      return new google.maps.Marker({
+        position: location,
+      });
+    });
+    // Add a marker clusterer to manage the markers.
+    new MarkerClusterer(parkmap, markers, {
+      imagePath:
+        "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
+    });
+  }
+  const locations = [
+    { lat: 64.25602210551021, lng: -21.129496057109773 },
+    { lat: 64.31281294526529, lng: -20.30072331477941 },
+    { lat: 64.32729798791719, lng: -20.119983951734493 },
+    { lat: 64.13519217589722, lng: -20.322561423252917 },
+    { lat: 64.00219355062262, lng: -21.18309981645192 },
+    { lat: 63.558925381051736, lng: -19.302572138498604 },
+    { lat: 63.40334735873135, lng: -19.042053875431304 },
+    { lat: 63.416284851101686, lng: -19.006615789656394 },
+    { lat: 63.532160569285764, lng: -19.51137635132471 },
+    { lat: 63.615712760362236, lng: -19.988566624337654 },
+    { lat: 64.14424522003347, lng: -21.939347472459655 },
+    { lat: 64.14222101042763, lng: -21.94799940129588 },
+    { lat: 64.11898631282767, lng: -21.816186943624736 },
+    { lat: 64.14946086652706, lng: -21.9414136436232787 },
+    { lat: 64.14740842990385, lng: -21.94272895711488 },
+    { lat: 64.15346592608839, lng: -21.948615610530034 },
+    { lat: 64.15013733127056, lng: -21.941376510981765 },
+    { lat: 64.14920468924797, lng: -21.940873243623297 },
+    { lat: 64.1383270099139, lng: -21.913475990225926 },
+  ];
+  // Creating a route with waypoints: https://developers.google.com/maps/documentation/javascript/directions#Waypoints
+  function displayRoute(origin, destination, service, display) {
     service.route(
         {
         origin: origin,
@@ -108,6 +110,7 @@ function displayRoute(origin, destination, service, display) {
     );
     }
         function initMap() {
+          // Embedding multiple maps with Maps JavaScript API: https://stackoverflow.com/questions/4074520/how-to-display-multiple-google-maps-per-page-with-api-v3
             var flightOptions =
             {
                 zoom: 4,
@@ -122,10 +125,12 @@ function displayRoute(origin, destination, service, display) {
             };
             var flightMap = new google.maps.Map(document.getElementById("flightmap"), flightOptions);
             var newmap = new google.maps.Map(document.getElementById("directionMap"), tripOptions);
+        // Use Directions Service (available with Maps JavaScript API and Directions API) to draw a route with waypoints
         const directionsService = new google.maps.DirectionsService(newmap);
         const directionsRenderer = new google.maps.DirectionsRenderer({
         map: newmap,
         });
+        // displayRoute function called to draw a route between origin, destination and waypoints
         displayRoute(
         "Reykjavik Terminal, Skógarhlíð 10, Reykjavík, Iceland",
         "Reykjavik Terminal, Skógarhlíð 10, Reykjavík, Iceland",
@@ -141,6 +146,8 @@ function displayRoute(origin, destination, service, display) {
             strokeOpacity: 1,
             scale: 4,
         };
+        // Draw a polyline on flightMap to visualize the flight path
+        // https://developers.google.com/maps/documentation/javascript/shapes
         const flightPath = new google.maps.Polyline({
             path: flightPlanCoordinates,
             geodesic: true,
@@ -154,6 +161,9 @@ function displayRoute(origin, destination, service, display) {
                 },
             ],
         });
+      // Use the Places library in the Maps JavaScript API and Places API to get place details about both airports
+      // https://developers.google.com/maps/documentation/javascript/places#place_details
+      // Each airport (place) will has its own info window
         const kelflavikRequest = {
       placeId: "ChIJn3mr4vz9KUkRzSjDFQqN-Cc",
       fields: ["name", "formatted_address", "international_phone_number", "website", "geometry"],
@@ -219,6 +229,8 @@ function displayRoute(origin, destination, service, display) {
         }
       });
         flightPath.setMap(flightMap);
+        // Invoke the clusterMap function inside the initMap function to display another map with a different callback
+        // https://stackoverflow.com/questions/41889362/add-two-google-maps-with-different-callbacks
         clusterMap();
         }
     </script>
@@ -228,10 +240,13 @@ function displayRoute(origin, destination, service, display) {
       <p>In December of 2019 I spent a week in Iceland, staying in the capital city of Reykjavik. 
         Below are 3 Google Maps that outline my trip from the flight, to all the places I visited, to a specific one day tour.</p>
         <div class="map" id="flightmap"></div>
-        <p>Flight path from Toronto Pearson International Airport to Kelflavík International Airport in Iceland. A direct flight took a little over 5 hours. Click on airplane icons for more details about each airport.</p>
+        <p>Flight path from Toronto Pearson International Airport to Kelflavík International Airport in Iceland. 
+          A direct flight took a little over 5 hours. Click on airplane icons for more details about each airport.</p>
         <div class="map" id="parksMap"></div>
         <p>Some tourist attractions and museums I visited in and around the Reykjavik area.</p>
         <div class="map" id="directionMap"></div>
-        <p>The route for a guided bus tour hosted by Reykjavik Sightseeing. From the Reykjavik Terminal, we went to Þingvellir National Park, Strokkur (an erupting geyser), Gullfoss Waterfall and visited the towns of Flúðir and Hveragerði. At night, we saw the Northern Lights.</p>
+        <p>The route for a guided bus tour hosted by Reykjavik Sightseeing. From the Reykjavik Terminal, 
+          we went to Þingvellir National Park, Strokkur (an erupting geyser), Gullfoss Waterfall and 
+          visited the towns of Flúðir and Hveragerði. At night, we saw the Northern Lights.</p>
   </body>
 </html>
