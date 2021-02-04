@@ -121,7 +121,6 @@
         };
         var tripOptions =
         {
-            zoom: 11,
             center: { lat: 64.097355, lng: -21.012060 },
             mapTypeId: "terrain",
         };
@@ -162,7 +161,7 @@
         };
         const infowindowKelflavik = new google.maps.InfoWindow();
         const service = new google.maps.places.PlacesService(flightMap);
-        // Airplace icon image: https://www.pngegg.com/en/png-ysvyl
+        // Airplane icon image: https://www.pngegg.com/en/png-ysvyl
         const image = "images/airplane.png"
         service.getDetails(kelflavikRequest, (kelflavik, status) => {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
