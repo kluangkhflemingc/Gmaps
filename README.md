@@ -18,7 +18,7 @@
 * [Repository Link](tutorial3b.html)
 
 ## Tutorial 3c
-* [Earthquake Heat Map - January 2021](https://kluangkhflemingc.github.io/Gmaps/tutorial3c.html)
+* [Earthquake Heatmap - January 2021](https://kluangkhflemingc.github.io/Gmaps/tutorial3c.html)
 * [Repository Link](tutorial3c.html)
 
 ## Create: Option 1
